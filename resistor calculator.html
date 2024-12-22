@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistor Colour Code Calculator</title>
+    <style>
+        :root {
+            --primary-color: #60a5fa;
+            --accent-color: #3b82f6;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-color: #f3f4f6;
+            --border-color: #374151;
+            --input-bg: #374151;
+            --hover-color: #2563eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            font-size: 28px;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            background: var(--input-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2360a5fa%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px top 50%;
+            background-size: 12px auto;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .color-box {
+            width: 100%;
+            height: 40px;
+            margin-top: 12px;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+        }
+
+        #result {
+            text-align: center;
+            font-size: 24px;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        #resistor-colours {
+            margin-top: 40px;
+        }
+
+        h3 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        #bands {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--input-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .color-band {
+            width: 60px;
+            height: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .color-band {
+                width: 40px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">
+            BM <span>DOT</span> LK
+        </div>
+
+        <h1>Resistor Colour Code Calculator</h1>
+
+        <div class="input-group">
+            <label for="first-color">First Colour (Digit)</label>
+            <select id="first-color" onchange="updateColorDisplay()">
+                <option value="0" data-color="#000000">Black (0)</option>
+                <option value="1" data-color="#7F3F00">Brown (1)</option>
+                <option value="2" data-color="#D50000">Red (2)</option>
+                <option value="3" data-color="#FF6A00">Orange (3)</option>
+                <option value="4" data-color="#FFEE00">Yellow (4)</option>
+                <option value="5" data-color="#00D500">Green (5)</option>
+                <option value="6" data-color="#0000FF">Blue (6)</option>
+                <option value="7" data-color="#8A2BE2">Violet (7)</option>
+                <option value="8" data-color="#808080">Gray (8)</option>
+                <option value="9" data-color="#FFFFFF">White (9)</option>
+            </select>
+            <div class="color-box" id="first-color-box"></div>
+        </div>
+
+        <div class="input-group">
+            <label for="second-color">Second Colour (Digit)</label>
+            <select id="second-color" onchange="updateColorDisplay()">
+                <option value="0" data-color="#000000">Black (0)</option>
+                <option value="1" data-color="#7F3F00">Brown (1)</option>
+                <option value="2" data-color="#D50000">Red (2)</option>
+                <option value="3" data-color="#FF6A00">Orange (3)</option>
+                <option value="4" data-color="#FFEE00">Yellow (4)</option>
+                <option value="5" data-color="#00D500">Green (5)</option>
+                <option value="6" data-color="#0000FF">Blue (6)</option>
+                <option value="7" data-color="#8A2BE2">Violet (7)</option>
+                <option value="8" data-color="#808080">Gray (8)</option>
+                <option value="9" data-color="#FFFFFF">White (9)</option>
+            </select>
+            <div class="color-box" id="second-color-box"></div>
+        </div>
+
+        <div class="input-group">
+            <label for="multiplier-color">Multiplier Colour</label>
+            <select id="multiplier-color" onchange="updateColorDisplay()">
+                <option value="1" data-color="#000000">Black (x1)</option>
+                <option value="10" data-color="#7F3F00">Brown (x10)</option>
+                <option value="100" data-color="#D50000">Red (x100)</option>
+                <option value="1000" data-color="#FF6A00">Orange (x1,000)</option>
+                <option value="10000" data-color="#FFEE00">Yellow (x10,000)</option>
+                <option value="100000" data-color="#00D500">Green (x100,000)</option>
+                <option value="1000000" data-color="#0000FF">Blue (x1,000,000)</option>
+                <option value="10000000" data-color="#8A2BE2">Violet (x10,000,000)</option>
+                <option value="100000000" data-color="#808080">Gray (x100,000,000)</option>
+                <option value="1000000000" data-color="#FFFFFF">White (x1,000,000,000)</option>
+            </select>
+            <div class="color-box" id="multiplier-color-box"></div>
+        </div>
+
+        <button onclick="calculateResistorValue()">Calculate Resistor Value</button>
+
+        <div id="result"></div>
+
+        <div id="resistor-colours">
+            <h3>Resistor Colour Bands</h3>
+            <div id="bands"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateColorDisplay() {
+            const firstColor = document.getElementById('first-color');
+            const secondColor = document.getElementById('second-color');
+            const multiplierColor = document.getElementById('multiplier-color');
+            
+            document.getElementById('first-color-box').style.backgroundColor = firstColor.options[firstColor.selectedIndex].getAttribute('data-color');
+            document.getElementById('second-color-box').style.backgroundColor = secondColor.options[secondColor.selectedIndex].getAttribute('data-color');
+            document.getElementById('multiplier-color-box').style.backgroundColor = multiplierColor.options[multiplierColor.selectedIndex].getAttribute('data-color');
+        }
+
+        function calculateResistorValue() {
+            const firstColor = parseInt(document.getElementById('first-color').value);
+            const secondColor = parseInt(document.getElementById('second-color').value);
+            const multiplier = parseInt(document.getElementById('multiplier-color').value);
+
+            const resistorValue = (firstColor * 10 + secondColor) * multiplier;
+
+            document.getElementById('result').textContent = `Resistor Value: ${formatResistorValue(resistorValue)} Ω`;
+            displayColourBands(firstColor, secondColor, multiplier);
+        }
+
+        function formatResistorValue(value) {
+            if (value >= 1000000000) {
+                return (value / 1000000000).toFixed(1) + 'G';
+            } else if (value >= 1000000) {
+                return (value / 1000000).toFixed(1) + 'M';
+            } else if (value >= 1000) {
+                return (value / 1000).toFixed(1) + 'k';
+            }
+            return value.toString();
+        }
+
+        function displayColourBands(first, second, multiplier) {
+            const bandColors = [
+                "#000000", "#7F3F00", "#D50000", "#FF6A00", "#FFEE00", "#00D500", 
+                "#0000FF", "#8A2BE2", "#808080", "#FFFFFF"
+            ];
+
+            const firstColor = bandColors[first];
+            const secondColor = bandColors[second];
+            const multiplierColor = bandColors[logBase(multiplier)];
+
+            const bandsContainer = document.getElementById('bands');
+            bandsContainer.innerHTML = `
+                <div class="color-band" style="background-color: ${firstColor};"></div>
+                <div class="color-band" style="background-color: ${secondColor};"></div>
+                <div class="color-band" style="background-color: ${multiplierColor};"></div>
+            `;
+        }
+
+        function logBase(n) {
+            return Math.log10(n);
+        }
+
+        window.onload = updateColorDisplay;
+    </script>
+
+</body>
+</html>
